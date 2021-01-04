@@ -7,3 +7,7 @@ p {
     margin-top: 50px;
     text-align: center;
 }
+
+.fa-small{
+    font-size: 16px !important;
+}
