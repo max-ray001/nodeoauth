@@ -30,7 +30,7 @@ router.get('/', ensureAuth,  async (req,res) =>{
     .populate('user')
     .sort({createdAt: 'desc' })
     .lean()
-    res.render('story/index', stories)
+    res.render('story/index',{stories})
     }
     catch (err){
         console.error(err)
@@ -38,9 +38,33 @@ router.get('/', ensureAuth,  async (req,res) =>{
     }
 })
 
+
+//GET show a single story in the readmore button
+router.get('/:id', ensureAuth, async (req, res) => {
+    try {
+      let story = await Story.findById(req.params.id).populate('user').lean()
+  
+      if (!story) {
+        return res.render('error/404')
+      }
+  
+      if (story.user._id != req.user.id && story.status == 'private') {
+        res.render('error/404')
+      } else {
+        res.render('story/show', {
+          story,
+        })
+      }
+    } catch (err) {
+      console.error(err)
+      res.render('error/404')
+    }
+  })
+
 //show edit story view
 router.get('/edit/:id', ensureAuth, async (req,res) =>{
 
+    try {
     const story = await Story.findOne({
         _id:req.params.id
     }).lean()
@@ -55,6 +79,13 @@ router.get('/edit/:id', ensureAuth, async (req,res) =>{
         res.render('story/edit',{
             story
         })
+    }
+  } 
+
+    catch(err) {
+        console.error(err)
+        return res.render('error/500')
+
     }
 })
 
@@ -73,18 +104,55 @@ router.put('/:id', ensureAuth, async (req,res) =>{
         res.redirect('/stories')
     } else {
         story = Story.findOneAndUpdate({_id:req.params.id}, req.body,{
-            new:true,
-            runValidators:true
+            new: true,
+            runValidators: true
         })
      }
      res.redirect('/dashboard')
 
     }
-
     catch (err) {
         console.error(err)
         res.render('error/500')
     }
+})
+
+
+//delete a story from the database
+router.delete('/:id', ensureAuth, async (req,res) =>{
+
+    try {
+        await Story.remove({_id:req.params.id})
+        res.redirect('/dashboard')
+        
+    } catch (err) {
+        console.error(err)
+        return res.render('error/500')  
+    }
+})
+
+
+//get the use story from the user icon links
+router.get('/user/:id', ensureAuth, async (req,res) =>{
+
+    try {
+        const stories = await Story.find({
+            user:req.params.id,
+            status:'public'
+        })
+        .populate('user').lean()
+
+        res.render('story/index', {
+            stories
+        })
+        
+    } catch (err) {
+        console.error(err)
+        res.render('error/500')
+        
+    }
+
+    res.render('story/add')
 })
 
 

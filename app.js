@@ -17,6 +17,7 @@ require('/home/e-wave/Desktop/nodeoauth/config/passport.js')(passport)
 const app = express()
 
 
+
 // general middlewares
 //using morgan for login
 if (process.env.NODE_ENV === 'development'){
@@ -24,9 +25,8 @@ if (process.env.NODE_ENV === 'development'){
 }
 
 //body parser middleware
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
-
+app.use(express.urlencoded({extended:false}))
+app.use(express.json())
 //method override
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -94,6 +94,7 @@ app.use((req,res,next) =>{
  app.use('/stories', require('./routes/stories'))
 
 app.listen(port, ()=>{
+    
     console.log(`server running on ${process.env.NODE_ENV} mode on port ${port}`)
 
 })
