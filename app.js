@@ -8,15 +8,12 @@ const passport = require('passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const path = require('path');
-const bodyParser = require('body-parser');
 const port=process.env.PORT
 
 
-require('/home/e-wave/Desktop/nodeoauth/config/passport.js')(passport)
+require('./config/passport.js')(passport)
 //intialize the app
 const app = express()
-
-
 
 // general middlewares
 //using morgan for login
@@ -24,9 +21,12 @@ if (process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
 }
 
-//body parser middleware
-app.use(express.urlencoded({extended:false}))
-app.use(express.json())
+//make the token available to all views
+// app.use(function (req, res, next){
+//     res.locals._csrf = req.csrfToken();
+//     next();
+// });
+
 //method override
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -66,7 +66,6 @@ app.use(passport.session())
 app.use((req,res,next) =>{
     res.locals.user = req.user || null
     next();
-
 })
 
 
@@ -93,7 +92,7 @@ app.use((req,res,next) =>{
  app.use('/auth', require('./routes/auth'))
  app.use('/stories', require('./routes/stories'))
 
-app.listen(port, ()=>{
+app.listen(port, ()=> {
     
     console.log(`server running on ${process.env.NODE_ENV} mode on port ${port}`)
 

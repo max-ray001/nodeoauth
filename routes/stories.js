@@ -1,18 +1,33 @@
-const express = require('express')
-const router = express.Router()
+const router = require('express').Router()
+const csrf = require('csurf')
 const { ensureAuth} = require('../middleware/auth.js')
 const Story = require('../models/story')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+
+
+//body parser middleware
+
+
+//csrf middleware
+const csrfProtection = csrf({cookie:true})
+router.use(csrfProtection());
+const parseForm = bodyParser.urlencoded({extended: false})
+router.use(bodyParser.json())
+router.use(parseForm())
+//router cookie middleware
+router.use(cookieParser())
 
 
 //login / show add story
-router.get('/add', ensureAuth,(req,res) =>{
-
-    res.render('story/add')
+router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
+    
+    res.render('story/add',{csrfToken:req.csrfToken()})
 })
 
 
 //login / spost story
-router.post('/', ensureAuth, async (req,res) =>{
+router.post('/' , ensureAuth, parseForm, csrfProtection, async (req,res) =>{
     try {
         req.body.user = req.user.id
         await Story.create(req.body)
@@ -23,7 +38,7 @@ router.post('/', ensureAuth, async (req,res) =>{
     }
 })
 
-//redner all stories
+//render all stories
 router.get('/', ensureAuth,  async (req,res) =>{
     try {
         const stories =  await Story.find({status: 'public' })

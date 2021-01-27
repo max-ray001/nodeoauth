@@ -1,7 +1,5 @@
-const express = require('express')
+const router = require('express').Router()
 const passport = require('passport')
-const router = express.Router()
-
 
 //auth with google base url on app.js is /auth
 // landing/login page

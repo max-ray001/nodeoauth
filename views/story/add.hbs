@@ -1,6 +1,7 @@
 <h3>Add Story</h3>
 <div class="row">
     <form action="/stories" method="POST" class="col s12">
+     <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div class="row">
             <div class="input-field">
                 <input type="text" id="title" name="title">
