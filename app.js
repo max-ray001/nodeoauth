@@ -20,6 +20,18 @@ const app = express()
 if (process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
 }
+//security mesures
+//xss attacks
+app.use((req,res,next) =>{
+    res.setHeader("Content-Security-Policy", "script-src self';");
+    next();
+})
+
+//clickjacking attacks
+app.use((req,res,next) =>{
+    res.setHeader("Content-Security-Policy", "frame-ancestors self';");
+    next();
+})
 
 //make the token available to all views
 // app.use(function (req, res, next){
