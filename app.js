@@ -8,7 +8,7 @@ const passport = require('passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const path = require('path');
-const port=process.env.PORT
+const port=process.env.PORT || 3000
 
 
 require('./config/passport.js')(passport)
