@@ -11,10 +11,8 @@ const bodyParser = require('body-parser')
 
 //csrf middleware
 const csrfProtection = csrf({cookie:true})
-router.use(csrfProtection());
 const parseForm = bodyParser.urlencoded({extended: false})
 router.use(bodyParser.json())
-router.use(parseForm())
 //router cookie middleware
 router.use(cookieParser())
 

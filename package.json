@@ -1,14 +1,19 @@
 {
+  "engines": {
+    "node": "14.x"
+  },
   "name": "nodeoauth",
   "version": "1.0.0",
-  "description": "stories app",
+  "description": " a stories app with oauth authenticaion and web security functionality",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app",
+    "start": "node app.js",
     "dev": "cross-env NODE_ENV=development nodemon app"
   },
   "keywords": [
-    "stories"
+    "stories",
+    "auth",
+    "web security"
   ],
   "author": "E-wave",
   "license": "MIT",
