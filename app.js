@@ -17,9 +17,8 @@ const app = express()
 
 // general middlewares
 //using morgan for login
-if (process.env.NODE_ENV === 'development'){
-    app.use(morgan('dev'))
-}
+app.use(morgan('dev'))
+
 //security mesures
 //xss attacks
 app.use((req,res,next) =>{
@@ -106,6 +105,6 @@ app.use((req,res,next) =>{
 
 app.listen(port, ()=> {
     
-    console.log(`server running on ${process.env.NODE_ENV} mode on port ${port}`)
+    console.log(`server running on port ${port}`)
 
 })
