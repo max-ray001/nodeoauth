@@ -17,7 +17,9 @@ const app = express()
 
 // general middlewares
 //using morgan for login
-app.use(morgan('dev'))
+if (process.env.NODE_ENV === 'development'){
+    app.use(morgan('dev'))
+}
 
 //security mesures
 //xss attacks
