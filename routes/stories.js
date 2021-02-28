@@ -1,9 +1,10 @@
-const router = require('express').Router()
-const csrf = require('csurf')
-const { ensureAuth} = require('../middleware/auth.js')
-const Story = require('../models/story')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
+const router = require('express').Router();
+const csrf = require('csurf');
+const { ensureAuth} = require('../middleware/auth.js');
+const mongoose = require('mongoose');
+const Story = require('../models/story');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 //router cookie middleware
 router.use(cookieParser())
@@ -15,8 +16,7 @@ router.use(bodyParser.json())
 
 
 //cast the global parameter id object as a mongoose string
-const id = mongoose.Types.ObjectId(req.params.id)
-
+const id = Mongoose.Types.ObjectId(req.params.id)
 //login / show add story
 router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
     
