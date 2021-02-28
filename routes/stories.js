@@ -54,7 +54,7 @@ router.get('/', ensureAuth,  async (req,res) =>{
 
 
 //GET show a single story in the readmore button
-router.get('/:id', ensureAuth, csrfProtection, async (req, res) => {
+router.get('/:id', ensureAuth, async (req, res) => {
     try {
       let story = await Story.findById(req.params.id).populate('user').lean()
   
@@ -104,7 +104,7 @@ router.get('/edit/:id', ensureAuth, async (req,res) =>{
 })
 
 //update stories afer editing via a PUT
-router.put('/:id', ensureAuth,csrfProtection,parseForm, async (req,res) =>{
+router.put('/:id', ensureAuth, async (req,res) =>{
 
     try {
     let story = await Story.findById(req.params.id).lean()
