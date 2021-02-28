@@ -5,8 +5,6 @@ const Story = require('../models/story')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
-
-
 //router cookie middleware
 router.use(cookieParser())
 //csrf middleware
@@ -16,7 +14,8 @@ const parseForm = bodyParser.urlencoded({extended: false})
 router.use(bodyParser.json())
 
 
-
+//cast the global parameter id object as a mongoose string
+const id = mongoose.Types.ObjectId(req.params.id)
 
 //login / show add story
 router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
@@ -25,7 +24,7 @@ router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
 })
 
 
-//login / spost story
+//login / post story
 router.post('/' , ensureAuth, parseForm, csrfProtection, async (req,res) =>{
     try {
         req.body.user = req.user.id
@@ -33,7 +32,7 @@ router.post('/' , ensureAuth, parseForm, csrfProtection, async (req,res) =>{
         res.redirect('/dashboard')
     } catch (err) {
         console.error(err)
-        res,render('error/500')
+        res.render('error/500')
     }
 })
 
@@ -44,7 +43,7 @@ router.get('/', ensureAuth,  async (req,res) =>{
     .populate('user')
     .sort({createdAt: 'desc' })
     .lean()
-    res.render('story/index',{stories})
+    res.render('story/index',{stories,csrfToken:req.csrfToken()})
     }
     catch (err){
         console.error(err)
@@ -56,7 +55,7 @@ router.get('/', ensureAuth,  async (req,res) =>{
 //GET show a single story in the readmore button
 router.get('/:id', ensureAuth, async (req, res) => {
     try {
-      let story = await Story.findById(req.params.id).populate('user').lean()
+      let story = await Story.findById(id).populate('user').lean()
   
       if (!story) {
         return res.render('error/404')
@@ -80,7 +79,7 @@ router.get('/edit/:id', ensureAuth, async (req,res) =>{
 
     try {
     const story = await Story.findOne({
-        _id:req.params.id
+        _id:id
     }).lean()
 
     if (!story){
@@ -107,7 +106,7 @@ router.get('/edit/:id', ensureAuth, async (req,res) =>{
 router.put('/:id', ensureAuth, async (req,res) =>{
 
     try {
-    let story = await Story.findById(req.params.id).lean()
+    let story = await Story.findById(id).lean()
 
     if (!story){
         res.render('error/404')
@@ -117,7 +116,7 @@ router.put('/:id', ensureAuth, async (req,res) =>{
     if (story.user != req.user.id){
         res.redirect('/stories')
     } else {
-        story = Story.findOneAndUpdate({_id:req.params.id}, req.body,{
+        story = Story.findOneAndUpdate({_id:id}, req.body,{
             new: true,
             runValidators: true
         })
@@ -136,7 +135,7 @@ router.put('/:id', ensureAuth, async (req,res) =>{
 router.delete('/:id', ensureAuth, async (req,res) =>{
 
     try {
-        await Story.remove({_id:req.params.id})
+        await Story.remove({_id:id})
         res.redirect('/dashboard')
         
     } catch (err) {
@@ -151,7 +150,7 @@ router.get('/user/:id', ensureAuth, async (req,res) =>{
 
     try {
         const stories = await Story.find({
-            user:req.params.id,
+            user:id,
             status:'public'
         })
         .populate('user').lean()
@@ -168,8 +167,5 @@ router.get('/user/:id', ensureAuth, async (req,res) =>{
 
     res.render('story/add')
 })
-
-
-
 
 module.exports = router
