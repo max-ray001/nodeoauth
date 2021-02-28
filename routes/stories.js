@@ -44,7 +44,7 @@ router.get('/', ensureAuth,  async (req,res) =>{
     .populate('user')
     .sort({createdAt: 'desc' })
     .lean()
-    res.render('story/index',{stories,csrfToken:req.csrfToken()})
+    res.render('story/index',{stories})
     }
     catch (err){
         console.error(err)
