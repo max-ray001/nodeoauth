@@ -16,7 +16,7 @@ router.use(bodyParser.json())
 
 
 //cast the global parameter id object as a mongoose string
-const id = Mongoose.Types.ObjectId(req.params.id)
+const id = mongoose.Types.ObjectId(req.params.id)
 //login / show add story
 router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
     
