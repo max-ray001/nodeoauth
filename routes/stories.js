@@ -15,8 +15,8 @@ const parseForm = bodyParser.urlencoded({extended: false})
 router.use(bodyParser.json())
 
 
-//cast the global parameter id object as a mongoose string
-const id = mongoose.Types.ObjectId(req.params.id)
+
+
 //login / show add story
 router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
     
@@ -26,6 +26,7 @@ router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
 
 //login / post story
 router.post('/' , ensureAuth, parseForm, csrfProtection, async (req,res) =>{
+    const id = mongoose.Types.ObjectId(req.params.id)
     try {
         req.body.user = req.user.id
         await Story.create(req.body)
@@ -54,6 +55,7 @@ router.get('/', ensureAuth,  async (req,res) =>{
 
 //GET show a single story in the readmore button
 router.get('/:id', ensureAuth, async (req, res) => {
+    const id = mongoose.Types.ObjectId(req.params.id)
     try {
       let story = await Story.findById(id).populate('user').lean()
   
@@ -77,6 +79,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
 //show edit story view
 router.get('/edit/:id', ensureAuth, async (req,res) =>{
 
+    const id = mongoose.Types.ObjectId(req.params.id)
     try {
     const story = await Story.findOne({
         _id:id
@@ -105,6 +108,7 @@ router.get('/edit/:id', ensureAuth, async (req,res) =>{
 //update stories afer editing via a PUT
 router.put('/:id', ensureAuth, async (req,res) =>{
 
+    const id = mongoose.Types.ObjectId(req.params.id)
     try {
     let story = await Story.findById(id).lean()
 
@@ -134,6 +138,7 @@ router.put('/:id', ensureAuth, async (req,res) =>{
 //delete a story from the database
 router.delete('/:id', ensureAuth, async (req,res) =>{
 
+    const id = mongoose.Types.ObjectId(req.params.id)
     try {
         await Story.remove({_id:id})
         res.redirect('/dashboard')
@@ -148,6 +153,7 @@ router.delete('/:id', ensureAuth, async (req,res) =>{
 //get the use story from the user icon links
 router.get('/user/:id', ensureAuth, async (req,res) =>{
 
+    const id = mongoose.Types.ObjectId(req.params.id)
     try {
         const stories = await Story.find({
             user:id,
