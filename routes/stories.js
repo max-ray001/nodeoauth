@@ -110,7 +110,7 @@ router.put('/:id', ensureAuth, async (req,res) =>{
 
     const id = mongoose.Types.ObjectId(req.params.id)
     try {
-    let story = await Story.findById(id).lean()
+    let story = await Story.findById(req.params.id).lean()
 
     if (!story){
         res.render('error/404')
@@ -120,7 +120,7 @@ router.put('/:id', ensureAuth, async (req,res) =>{
     if (story.user != req.user.id){
         res.redirect('/stories')
     } else {
-        story = Story.findOneAndUpdate({_id:id}, req.body,{
+        story = Story.findOneAndUpdate({_id:req.params.id}, req.body,{
             new: true,
             runValidators: true
         })
@@ -140,7 +140,7 @@ router.delete('/:id', ensureAuth, async (req,res) =>{
 
     const id = mongoose.Types.ObjectId(req.params.id)
     try {
-        await Story.remove({_id:id})
+        await Story.remove({_id:req.params.id})
         res.redirect('/dashboard')
         
     } catch (err) {
