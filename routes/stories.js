@@ -76,6 +76,8 @@ router.get('/:id', ensureAuth, async (req, res) => {
     }
   })
 
+
+
 //show edit story view
 router.get('/edit/:id', ensureAuth, async (req,res) =>{
 
@@ -150,7 +152,7 @@ router.delete('/:id', ensureAuth, async (req,res) =>{
 })
 
 
-//get the use story from the user icon links
+//get the user story from the user icon links
 router.get('/user/:id', ensureAuth, async (req,res) =>{
 
     const id = mongoose.Types.ObjectId(req.params.id)
@@ -173,5 +175,8 @@ router.get('/user/:id', ensureAuth, async (req,res) =>{
 
     res.render('story/add')
 })
+
+
+
 
 module.exports = router
