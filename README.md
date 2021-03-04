@@ -1,0 +1,1 @@
+A simple node.js CRUD bookstore app implemented with Google Oauth,common web security protocols against attacks such as XSS,CLickjacking and CSRF attacks and MongoDB as the database system
