@@ -116,3 +116,5 @@ dist
 .pnp.*
 #lock files
 package-lock.json
+
+check.js

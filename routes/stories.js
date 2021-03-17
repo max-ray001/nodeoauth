@@ -100,11 +100,12 @@ router.get('/edit/:id', ensureAuth, async (req,res) =>{
 //update stories afer editing via a PUT
 router.put('/:id', ensureAuth, async (req,res) =>{
 
-    let hex = /[0-9A-Fa-f]{6}/g;
-    const id = (hex.test(req.params.id))? ObjectId(req.params.id) : req.params.id;
+    // let hex = /[0-9A-Fa-f]{6}/g;
+    // const id = (hex.test(req.params.id))? ObjectId(req.params.id) : req.params.id;
+    const id = JSON.parse(req.params.id)
     
     try {
-    let story = await Story.findById(id).lean()
+    let story = await Story.findById({_id:ObjectId(id)}).lean()
 
     if (!story){
         res.render('error/404')
@@ -114,7 +115,7 @@ router.put('/:id', ensureAuth, async (req,res) =>{
     if (story.user != req.user.id){
         res.redirect('/stories')
     } else {
-        story = Story.findOneAndUpdate({_id:id}, req.body,{
+        story = Story.findOneAndUpdate({_id:ObjectId(id)}, req.body,{
             new: true,
             runValidators: true
         })
@@ -132,11 +133,10 @@ router.put('/:id', ensureAuth, async (req,res) =>{
 //delete a story from the database
 router.delete('/:id', ensureAuth, async (req,res) =>{
 
-    // const id = mongoose.Types.ObjectId(req.params.id)
-    let hex = /[0-9A-Fa-f]{6}/g;
-    const id = (hex.test(req.params.id))? ObjectId(req.params.id) : req.params.id;
+    const id = JSON.parse(req.params.id)
+    
     try {
-        let story = await Story.findById(id).lean()
+        let story = await Story.findById({_id:ObjectId(id)}).lean()
   
         if (!story) {
           return res.render('error/404')
@@ -144,7 +144,7 @@ router.delete('/:id', ensureAuth, async (req,res) =>{
         if (story.user != req.user.id) {
             res.redirect('/stories')
           } else {
-        await Story.remove({_id:id})
+        await Story.remove({_id:ObjectId(id)})
         res.redirect('/dashboard')
           }
         
