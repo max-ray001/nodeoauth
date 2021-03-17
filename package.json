@@ -29,6 +29,7 @@
     "hbs": "^4.1.1",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
+    "mongodb": "^3.6.5",
     "mongoose": "^5.11.9",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
