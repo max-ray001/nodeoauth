@@ -45,9 +45,10 @@ router.get('/', ensureAuth,  async (req,res) =>{
 
 //GET show a single story in the readmore button
 router.get('/:id', ensureAuth, async (req, res) => {
-    const id = mongoose.Types.ObjectId(req.params.id)
+    // const id = mongoose.Types.ObjectId(req.params.id)
+    const id = JSON.parse(req.params.id)
     try {
-      let story = await Story.findById(id).populate('user').lean()
+      let story = await Story.findById({_id:ObjectId(id)}).populate('user').lean()
   
       if (!story) {
         return res.render('error/404')
@@ -71,10 +72,11 @@ router.get('/:id', ensureAuth, async (req, res) => {
 //show edit story view
 router.get('/edit/:id', ensureAuth, async (req,res) =>{
 
-    const id = mongoose.Types.ObjectId(req.params.id)
+    // const id = mongoose.Types.ObjectId(req.params.id)
+    const id = JSON.parse(req.params.id)
     try {
     const story = await Story.findOne({
-        _id:id
+        _id:ObjectId(id)
     }).lean()
 
     if (!story){
