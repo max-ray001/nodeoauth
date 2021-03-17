@@ -25,18 +25,7 @@ router.get('/add', ensureAuth, csrfProtection ,(req,res) =>{
 })
 
 
-//login / post story
-router.post('/' , ensureAuth, parseForm, csrfProtection, async (req,res) =>{
-    const id = mongoose.Types.ObjectId(req.params.id)
-    try {
-        req.body.user = req.user.id
-        await Story.create(req.body)
-        res.redirect('/dashboard')
-    } catch (err) {
-        console.error(err)
-        res.render('error/500')
-    }
-})
+
 
 //render all stories
 router.get('/', ensureAuth,  async (req,res) =>{
@@ -188,6 +177,20 @@ router.get('/user/:id', ensureAuth, async (req,res) =>{
     }
 
     res.render('story/add')
+})
+
+
+//login / post story
+router.post('/' , ensureAuth, parseForm, csrfProtection, async (req,res) =>{
+    const id = mongoose.Types.ObjectId(req.params.id)
+    try {
+        req.body.user = req.user.id
+        await Story.create(req.body)
+        res.redirect('/dashboard')
+    } catch (err) {
+        console.error(err)
+        res.render('error/500')
+    }
 })
 
 
