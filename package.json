@@ -18,6 +18,7 @@
   "author": "E-wave",
   "license": "MIT",
   "dependencies": {
+    "compression": "^1.7.4",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
@@ -27,6 +28,7 @@
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
     "hbs": "^4.1.1",
+    "helmet": "^4.4.1",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
     "mongodb": "^3.6.5",

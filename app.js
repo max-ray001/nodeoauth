@@ -20,6 +20,7 @@ if (cluster.isMaster){
         //reuqired imports
         const express = require('express');
         const methodOverride = require('method-override');
+        const helmet = require('helmet')
         const dotenv = require('dotenv').config({path:__dirname+'/.env'})
         const mongoose = require('mongoose')
         const morgan = require('morgan');
@@ -29,6 +30,7 @@ if (cluster.isMaster){
         const MongoStore = require('connect-mongo')(session)
         const path = require('path');
         const port=process.env.PORT || 3000
+        const compression = require('compression');
 
 
         require('./config/passport.js')(passport)
@@ -40,6 +42,8 @@ if (cluster.isMaster){
         if (process.env.NODE_ENV === 'development'){
             app.use(morgan('dev'))
         }
+        app.use(helmet())
+        app.use(compression())
 
         //security mesures
         //xss attacks
