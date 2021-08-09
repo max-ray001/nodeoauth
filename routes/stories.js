@@ -174,7 +174,7 @@ router.get('/user/:id', ensureAuth, async (req,res) =>{
         
     }
 
-    res.render('story/add')
+    // res.render('story/add')
 })
 
 
