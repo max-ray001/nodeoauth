@@ -3,18 +3,18 @@ A simple node.js CRUD bookstore app implemented with Google Oauth with [passport
 clone the repository to get started
 
 ```
-git clone https://github.com/E-wave112/nodeoauth.git
+$ git clone https://github.com/E-wave112/nodeoauth.git
 ```
 
 install all dependencies
 
 ```
-npm install
+$ npm install
 ```
 
 Test your project via
 
 ```
-npm start or npm run dev
+$ npm run dev
 ```
 in a  development environment
