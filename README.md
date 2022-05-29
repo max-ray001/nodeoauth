@@ -17,4 +17,5 @@ Test your project via
 ```
 $ npm run dev
 ```
-in a  development environment
+
+in a development environment

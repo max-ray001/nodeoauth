@@ -1,27 +1,27 @@
-const router = require('express').Router()
-const passport = require('passport')
+const router = require("express").Router();
+const passport = require("passport");
 
-//auth with google base url on app.js is /auth
-// landing/login page
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ],
+  })
+);
 
-router.get('/google', passport.authenticate('google',{scope:['profile']}))
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("/dashboard");
+  }
+);
 
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
-//call back route with /auth/google/callback
-
-router.get('/google/callback',passport.authenticate('google', { failureRedirect: '/' }),
-(req, res) => {
-    res.redirect('/dashboard')
-
-})
-  // Successful authentication, redirect home.
-
-  //logout users
-
-router.get('/logout', (req,res)=> {
-    req.logout()
-    res.redirect('/')
-
-})
-
-module.exports = router
+module.exports = router;

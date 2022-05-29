@@ -8,7 +8,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "cross-env NODE_ENV=development nodemon app"
+    "dev": "cross-env NODE_ENV=development nodemon app",
+    "format": "prettier --write '**/*.{js,json,md,yml,yaml,css,scss}'"
   },
   "keywords": [
     "stories",
@@ -36,5 +37,8 @@
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0"
+  },
+  "devDependencies": {
+    "prettier": "2.6.2"
   }
 }
