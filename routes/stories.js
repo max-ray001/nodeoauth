@@ -109,7 +109,7 @@ router.put("/:id", ensureAuth, async (req, res) => {
 });
 
 //delete a story from the database
-router.delete("/:id", ensureAuth, async (req, res) => {
+router.delete("/delete/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
 
   try {
