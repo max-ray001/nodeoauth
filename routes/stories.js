@@ -96,20 +96,20 @@ router.post("/update/:id", ensureAuth, async (req, res) => {
     if (story.user != req.user.id) {
       res.redirect("/stories");
     } else {
-      story = Story.findOneAndUpdate({ _id: id }, req.body, {
+      story = await Story.findOneAndUpdate({ _id: id }, req.body, {
         new: true,
         runValidators: true,
       });
     }
-    res.redirect("/dashboard");
+    return res.redirect("/dashboard");
   } catch (err) {
     console.error(err);
-    res.render("error/500");
+    return res.render("error/500");
   }
 });
 
 //delete a story from the database
-router.delete("/delete/:id", ensureAuth, async (req, res) => {
+router.post("/delete/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
 
   try {
