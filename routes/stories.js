@@ -96,10 +96,11 @@ router.post("/update/:id", ensureAuth, async (req, res) => {
     if (story.user != req.user.id) {
       res.redirect("/stories");
     } else {
-      story = await Story.findOneAndUpdate({ _id: id }, req.body, {
+      story = await Story.findOneAndUpdate({ _id: id }, {...req.body}, {
         new: true,
         runValidators: true,
       });
+      console.log(story)
     }
     return res.redirect("/dashboard");
   } catch (err) {
