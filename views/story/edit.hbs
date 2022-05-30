@@ -1,7 +1,7 @@
 <h3>Edit Story</h3>
 <div class="row">
-  <form action="/stories/update/{{story._id}}" class="col s12">
-    <input type="hidden" name="_method" value="PUT" />
+  <form action="/stories/update/{{story._id}}" method="POST" class="col s12">
+    <input type="hidden" />
     <div class="row">
       <div class="input-field">
         <input type="text" id="title" name="title" value="{{story.title}}" />

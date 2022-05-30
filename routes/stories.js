@@ -83,7 +83,7 @@ router.get("/edit/:id", ensureAuth, async (req, res) => {
 });
 
 //update stories afer editing via a PUT
-router.put("/update/:id", ensureAuth, async (req, res) => {
+router.post("/update/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
 
   try {
