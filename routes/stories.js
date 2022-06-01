@@ -37,13 +37,13 @@ router.get("/", ensureAuth, async (req, res) => {
 router.get("/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
   try {
-    let story = await Story.findById({ _id: id }).populate("user").lean();
+    let story = await Story.findById(id).populate("user").lean();
 
     if (!story) {
       return res.render("error/404");
     }
 
-    if (story.user._id != req.user.id && story.status == "private") {
+    if (story.user._id != req.user.id && story.status === "private") {
       res.render("error/404");
     } else {
       res.render("story/show", {
@@ -61,9 +61,7 @@ router.get("/edit/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
 
   try {
-    const story = await Story.findOne({
-      _id: id,
-    }).lean();
+    const story = await Story.findById(id).lean();
 
     if (!story) {
       res.render("error/404");
@@ -87,7 +85,7 @@ router.post("/update/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
 
   try {
-    let story = await Story.findById({ _id: id }).lean();
+    let story = await Story.findById(id).lean();
 
     if (!story) {
       res.render("error/404");
@@ -114,7 +112,7 @@ router.post("/delete/:id", ensureAuth, async (req, res) => {
   const id = mongoose.Types.ObjectId(req.params.id);
 
   try {
-    let story = await Story.findById({ _id: id }).lean();
+    let story = await Story.findById(id).lean();
 
     if (!story) {
       return res.render("error/404");
@@ -142,12 +140,12 @@ router.get("/user/:id", ensureAuth, async (req, res) => {
       .populate("user")
       .lean();
 
-    res.render("story/index", {
+    return res.render("story/index", {
       stories,
     });
   } catch (err) {
     console.error(err);
-    res.render("error/500");
+    return res.render("error/500");
   }
 });
 
@@ -156,10 +154,10 @@ router.post("/", ensureAuth, parseForm, csrfProtection, async (req, res) => {
   try {
     req.body.user = req.user.id;
     await Story.create(req.body);
-    res.redirect("/dashboard");
+    return res.redirect("/dashboard");
   } catch (err) {
     console.error(err);
-    res.render("error/500");
+    return res.render("error/500");
   }
 });
 
