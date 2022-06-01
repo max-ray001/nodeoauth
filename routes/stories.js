@@ -98,7 +98,7 @@ router.post("/update/:id", ensureAuth, async (req, res) => {
         new: true,
         runValidators: true,
       });
-      console.log(story)
+      console.log("body", req.body)
     }
     return res.redirect("/dashboard");
   } catch (err) {
